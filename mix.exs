@@ -3,7 +3,7 @@ defmodule ElixirNsq.Mixfile do
 
   def project do
     [app: :elixir_nsq,
-     version: "1.1.0",
+     version: "1.1.1",
      elixir: "~> 1.1",
      description: description(),
      package: package(),
@@ -32,7 +32,7 @@ defmodule ElixirNsq.Mixfile do
     [
       {:poison, "~> 3.0"},
       {:httpotion, "~> 3.1"},
-      {:uuid, "~> 1.1"},
+      {:elixir_uuid, "~> 1.2"},
       {:socket, "~> 0.3.1"},
 
       # testing
