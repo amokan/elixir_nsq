@@ -77,14 +77,14 @@ defmodule NSQ.Connection.Initializer do
 
   @spec send_magic_v2(C.state) :: :ok
   defp send_magic_v2(conn_state) do
-    Logger.debug("(#{inspect self()}) sending magic v2...")
+    # Logger.debug("(#{inspect self()}) sending magic v2...")
     conn_state |> Buffer.send!(encode(:magic_v2))
   end
 
 
   @spec identify(C.state) :: {:ok, binary}
   defp identify(conn_state) do
-    Logger.debug("(#{inspect self()}) identifying...")
+    # Logger.debug("(#{inspect self()}) identifying...")
     identify_obj = encode({:identify, identify_props(conn_state)})
     conn_state |> Buffer.send!(identify_obj)
     {:response, json} = recv_nsq_response(conn_state)
@@ -165,11 +165,11 @@ defmodule NSQ.Connection.Initializer do
     end
 
     if parsed["auth_required"] == true do
-      Logger.debug "sending AUTH"
+      # Logger.debug "sending AUTH"
       auth_cmd = encode({:auth, conn_state.config.auth_secret})
       conn_state |> Buffer.send!(auth_cmd)
       {:response, json} = recv_nsq_response(conn_state)
-      Logger.debug(json)
+      # Logger.debug(json)
     end
 
     {:ok, conn_state}
@@ -187,10 +187,10 @@ defmodule NSQ.Connection.Initializer do
 
   @spec subscribe(C.state) :: {:ok, binary}
   defp subscribe(%{topic: topic, channel: channel} = conn_state) do
-    Logger.debug "(#{inspect self()}) subscribe to #{topic} #{channel}"
+    # Logger.debug "(#{inspect self()}) subscribe to #{topic} #{channel}"
     conn_state |> Buffer.send!(encode({:sub, topic, channel}))
 
-    Logger.debug "(#{inspect self()}) wait for subscription acknowledgment"
+    # Logger.debug "(#{inspect self()}) wait for subscription acknowledgment"
     conn_state |> wait_for_ok!
   end
 

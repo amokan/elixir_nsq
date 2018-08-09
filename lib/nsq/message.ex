@@ -95,7 +95,7 @@ defmodule NSQ.Message do
   been exhausted.
   """
   def fin(message) do
-    Logger.debug("(#{inspect message.connection}) fin msg ID #{message.id}")
+    # Logger.debug("(#{inspect message.connection}) fin msg ID #{message.id}")
     message |> Buffer.send!(encode({:fin, message.id}))
     GenEvent.notify(message.event_manager_pid, {:message_finished, message})
     GenServer.call(message.consumer, {:start_stop_continue_backoff, :resume})
@@ -115,16 +115,16 @@ defmodule NSQ.Message do
         delay = calculate_delay(
           message.attempts, message.config.max_requeue_delay
         )
-        Logger.debug("(#{inspect message.connection}) requeue msg ID #{message.id}, delay #{delay} (auto-calculated with attempts #{message.attempts}), backoff #{backoff}")
+        # Logger.debug("(#{inspect message.connection}) requeue msg ID #{message.id}, delay #{delay} (auto-calculated with attempts #{message.attempts}), backoff #{backoff}")
         delay
       else
-        Logger.debug("(#{inspect message.connection}) requeue msg ID #{message.id}, delay #{delay}, backoff #{backoff}")
+        # Logger.debug("(#{inspect message.connection}) requeue msg ID #{message.id}, delay #{delay}, backoff #{backoff}")
         delay
       end
 
     delay =
       if delay > message.config.max_requeue_delay do
-        Logger.warn "Invalid requeue delay #{delay}. Must be between 0 and #{message.config.max_requeue_delay}. Sending with max delay #{message.config.max_requeue_delay} instead."
+        # Logger.warn "Invalid requeue delay #{delay}. Must be between 0 and #{message.config.max_requeue_delay}. Sending with max delay #{message.config.max_requeue_delay} instead."
         message.config.max_requeue_delay
       else
         delay
@@ -147,7 +147,7 @@ defmodule NSQ.Message do
   message until the process finishes.
   """
   def touch(message) do
-    Logger.debug("(#{inspect message.connection}) touch msg ID #{message.id}")
+    # Logger.debug("(#{inspect message.connection}) touch msg ID #{message.id}")
     message |> Buffer.send!(encode({:touch, message.id}))
     send(message.parent, {:message_touch, message})
   end
@@ -234,7 +234,7 @@ defmodule NSQ.Message do
       {:message_done, _msg, ret_val} ->
         {:ok, ret_val}
       {:message_touch, _msg} ->
-        Logger.debug "Msg #{message.id} received TOUCH, starting a new wait..."
+        # Logger.debug "Msg #{message.id} received TOUCH, starting a new wait..."
         # If NSQ.Message.touch(msg) is called, we will send TOUCH msg_id to
         # NSQD, but we also need to reset our timeout on the client to avoid
         # processes that hang forever.

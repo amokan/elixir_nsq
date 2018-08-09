@@ -179,7 +179,7 @@ defmodule NSQ.Connection do
 
   @spec close(pid, state) :: any
   def close(conn, conn_state \\ nil) do
-    Logger.debug "Closing connection #{inspect conn}"
+    # Logger.debug "Closing connection #{inspect conn}"
     conn_state = conn_state || get_state(conn)
 
     # send a CLS command and expect CLOSE_WAIT in response
@@ -236,7 +236,7 @@ defmodule NSQ.Connection do
   @spec wait_for_zero_in_flight(pid, binary) :: any
   defp wait_for_zero_in_flight(agent_pid, conn_id) do
     [in_flight] = ConnInfo.fetch(agent_pid, conn_id, [:messages_in_flight])
-    Logger.debug("Conn #{inspect conn_id}: #{in_flight} still in flight")
+    # Logger.debug("Conn #{inspect conn_id}: #{in_flight} still in flight")
     if in_flight <= 0 do
       :ok
     else

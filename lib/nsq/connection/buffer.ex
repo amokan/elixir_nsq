@@ -33,10 +33,10 @@ defmodule NSQ.Connection.Buffer do
     state =
       case compression do
         :plaintext ->
-          Logger.debug("Not compressing or decompressing data")
+          # Logger.debug("Not compressing or decompressing data")
           %{state | compression: :plaintext}
         {:deflate, level} ->
-          Logger.debug("Using DEFLATE level #{level} to compress and decompress data")
+          # Logger.debug("Using DEFLATE level #{level} to compress and decompress data")
           state = %{state | compression: :deflate}
           case state.type do
             :reader ->

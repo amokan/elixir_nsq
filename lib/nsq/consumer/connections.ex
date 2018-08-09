@@ -67,12 +67,12 @@ defmodule NSQ.Consumer.Connections do
   def discover_nsqds_and_connect(cons, cons_state) do
     nsqds = cond do
       length(cons_state.config.nsqlookupds) > 0 ->
-        Logger.debug "(#{inspect self()}) Discovering nsqds via nsqlookupds #{inspect cons_state.config.nsqlookupds}"
+        # Logger.debug "(#{inspect self()}) Discovering nsqds via nsqlookupds #{inspect cons_state.config.nsqlookupds}"
         cons_state.config.nsqlookupds
         |> NSQ.Lookupd.nsqds_with_topic(cons_state.topic)
 
       length(cons_state.config.nsqds) > 0 ->
-        Logger.debug "(#{inspect self()}) Using configured nsqds #{inspect cons_state.config.nsqds}"
+        # Logger.debug "(#{inspect self()}) Using configured nsqds #{inspect cons_state.config.nsqds}"
         cons_state.config.nsqds
 
       true ->
