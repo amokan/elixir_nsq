@@ -329,9 +329,9 @@ defmodule NSQ.Consumer.Connections do
       sec_since_last_msg = now() - last_msg_t
       ms_since_last_msg = sec_since_last_msg * 1000
 
-      Logger.debug(
-        "(#{inspect conn}) rdy: #{rdy_count} (last message received #{sec_since_last_msg} seconds ago)"
-      )
+      # Logger.debug(
+      #   "(#{inspect conn}) rdy: #{rdy_count} (last message received #{sec_since_last_msg} seconds ago)"
+      # )
 
       ms_since_last_msg > cons_state.config.low_rdy_idle_timeout && rdy_count > 0
     end
